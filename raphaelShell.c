@@ -79,5 +79,19 @@ char *shellReadLine(void)
     }
   }
 
-  
+  /* Using getline()
+  char *line = NULL;
+  ssize_t bufSize = 0; // have getline allocate a buffer for us
+
+  if (getline(&line, &bufSize, stdin) == -1){
+    if (feof(stdin)) {
+      exit(EXIT_SUCCESS);  // We recieved an EOF
+    } else  {
+      perror("readline");
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  return line;
+  */
 }
