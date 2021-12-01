@@ -133,3 +133,34 @@ char **shellSplitLine(char *line)
   tokens[position] = NULL;
   return tokens;
 }
+
+int shellLaunch(char **args)
+{
+  pid_t, pid, wpid;
+  int status
+
+  pid = forkt();
+  if (pid == 0)
+  {
+    // Child process
+    if (excecvp(args[0], args) == -1)
+    {
+      perror("Raphael Shell");
+    }
+    exit(EXIT_FAILURE);
+  }
+  else if (pid < 0)
+  {
+    // Error forking
+    perror("Raphael Shell");
+  }
+  else
+  {
+    // Parent process
+    do {
+      wpid = waitpid(pid, &status, WUNTRACED);
+    } while(!WIFEXITED(status) && !WIFSIGNALED(status));
+  }
+
+  return 1;
+}
