@@ -33,3 +33,51 @@ void raphaelShellLoop(void)
     free(arguments);
   } while(status);
 }
+
+#define SHELL_RL_BUFSIZE 1024
+
+char *shellReadLine(void)
+{
+  int bufSize = SHELL_RL_BUFSIZE;
+  int position = 0;
+  char *buffer = malloc(sizeof(char) * bufSize);
+  int character;
+
+  if (!buffer)
+  {
+    fprintf(stderr, "Raphael Shell: allocation error\n");
+    exit(EXIT_FAILURE);
+  }
+
+  while (1)
+  {
+    // Read character
+    character = getchar();
+
+    // If we hit EOF, replace it with a null character and return.
+    if (character == EOF || character == '\n')
+    {
+      buffer[position] = '\0';
+      return buffer;
+    }
+    else
+    {
+      buffer[position] = character;
+    }
+    position++;
+
+    // If we have exceeded the buffer, reallocate.
+    if (position >= bufSize)
+    {
+      bufSize += SHELL_RL_BUFSIZE;
+      buffer = realloc(buffer, bufSize);
+      if (!buffer)
+      {
+        fprintf(stderr, "Raphael Shell: allocation error\n");
+        exit(EXIT_FAILURE);
+      }
+    }
+  }
+
+  
+}
