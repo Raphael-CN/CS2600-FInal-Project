@@ -2,6 +2,8 @@
 // CS 2600 Final
 // Shell Program
 
+#include <sys/wait.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -226,4 +228,25 @@ int shellHelp(char **args)
 int shellExit(char **args)
 {
   return 0;
+}
+
+int shellExecute(char **args)
+{
+  int i;
+
+  if (args[0] == NULL)
+  {
+    // Empty command entered
+    return 1;
+  }
+
+  for (i = 0; i < numBuiltins(); i++)
+  {
+    if (strcmp(args[0], builtInStrings[i]) == 0)
+    {
+      return (*builtInFunc[i])(args);
+    }
+  }
+
+  return shellLaunch(args);
 }
