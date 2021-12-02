@@ -28,6 +28,7 @@ void raphaelShellLoop(void)
     printf("> ");
     line = shellReadLine();
     arguments = shellSplitLine(line);
+    status = shellExecute(arguments);
 
     free(line);
     free(arguments);
@@ -163,4 +164,66 @@ int shellLaunch(char **args)
   }
 
   return 1;
+}
+
+// Function declarations for built in shell commands
+int shellCd(char **args);
+int shellHelp(char **args);
+int shellExit(char **args);
+
+// List of built in commands and their functions
+char *builtInStrings[] = {
+  "cd",
+  "help",
+  "exit",
+};
+
+int (*builtInFunc[]) (char **) = {
+  &shellCd,
+  &shellHelp,
+  &shellExit
+};
+
+int numBuiltins()
+{
+  return sizeof(builtInStrings) / sizeof(char *);
+}
+
+// Implementing built in functions
+
+int shellCd(char **args)
+{
+  if (args[1] == NULL)
+  {
+    fprintf(stderr, "Raphael Shell: expected argument to \"cd\"\n");
+  }
+  else
+  {
+    if (chdir(args[1]) != 0)
+    {
+      perrors("Raphael Shell");
+    }
+  }
+  return 1;
+}
+
+int shellHelp(char **args)
+{
+  int i;
+  printf("Raphael Napinas's Shell\n");
+  printf("Type program names and arguments, and hint enter.\n");
+  printf("The following are built in:\n");
+
+  for (i = 0; i < numBuiltins; i++)
+  {
+    printf("  %s\n", builtInStrings[i]);
+  }
+
+  printf("Use the man command for information on other programs.\n");
+  return 1;
+}
+
+int shellExit(char **args)
+{
+  return 0;
 }
