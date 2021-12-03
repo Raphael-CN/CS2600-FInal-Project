@@ -110,14 +110,14 @@ char **shellSplitLine(char *line)
 
 int shellLaunch(char **args)
 {
-  pid_t, pid, wpid;
-  int status
+  pid_t pid, wpid;
+  int status;
 
-  pid = forkt();
+  pid = fork();
   if (pid == 0)
   {
     // Child process
-    if (excecvp(args[0], args) == -1)
+    if (execvp(args[0], args) == -1)
     {
       perror("Raphael Shell");
     }
@@ -174,7 +174,7 @@ int shellCd(char **args)
   {
     if (chdir(args[1]) != 0)
     {
-      perrors("Raphael Shell");
+      perror("Raphael Shell");
     }
   }
   return 1;
@@ -187,7 +187,7 @@ int shellHelp(char **args)
   printf("Type program names and arguments, and hint enter.\n");
   printf("The following are built in:\n");
 
-  for (i = 0; i < numBuiltins; i++)
+  for (i = 0; i < numBuiltins(); i++)
   {
     printf("  %s\n", builtInStrings[i]);
   }
