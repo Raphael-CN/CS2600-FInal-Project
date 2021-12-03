@@ -8,35 +8,6 @@
 #include <stdio.h>
 #include <string.h>
 
-int main(int argc, char **argv)
-{
-  // Load config files, if any.
-
-  // Run command loop.
-  raphaelShellLoop();
-
-  // Perform any shutdown/cleanup.
-
-  return EXIT_SUCCESS;
-}
-
-void raphaelShellLoop(void)
-{
-  char *line;
-  char **arguments;
-  int status;
-
-  do {
-    printf("> ");
-    line = shellReadLine();
-    arguments = shellSplitLine(line);
-    status = shellExecute(arguments);
-
-    free(line);
-    free(arguments);
-  } while(status);
-}
-
 #define SHELL_RL_BUFSIZE 1024
 
 char *shellReadLine(void)
@@ -249,4 +220,33 @@ int shellExecute(char **args)
   }
 
   return shellLaunch(args);
+}
+
+void raphaelShellLoop(void)
+{
+  char *line;
+  char **arguments;
+  int status;
+
+  do {
+    printf("> ");
+    line = shellReadLine();
+    arguments = shellSplitLine(line);
+    status = shellExecute(arguments);
+
+    free(line);
+    free(arguments);
+  } while(status);
+}
+
+int main(int argc, char **argv)
+{
+  // Load config files, if any.
+
+  // Run command loop.
+  raphaelShellLoop();
+
+  // Perform any shutdown/cleanup.
+
+  return EXIT_SUCCESS;
 }
