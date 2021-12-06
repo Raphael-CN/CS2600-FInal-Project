@@ -23,7 +23,7 @@ struct editorConfig
   struct termios orig_termios;
 }
 
-struct EditorConfig E;
+struct editorConfig E;
 
 /*** terminal ***/
 
@@ -96,7 +96,7 @@ int getWindowSize(int *rows, int *cols)
 
   if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0)
   {
-    if (write(STDOUT_FILENO, "\x1b[999C\x1b[999B", 12) != ) return -1;
+    if (write(STDOUT_FILENO, "\x1b[999C\x1b[999B", 12) != 12) return -1;
     return getCursorPosition(rows, cols);
   }
   else
@@ -139,19 +139,16 @@ void editorDrawRows(struct abuf *ab)
   int y;
   for (y = 0; y < E.screenrows; y++)
   {
-    if (y == < E.screenrows; y++)
+    if (y == E.screenrows / 3)
     {
-      if (y == E.screenrows / 3)
-      {
-        char welcome[80];
-        int welcomelen = snprintf(welcome, sizeof(welcome), "Raphael Text Editor -- version %s", RAPHAEL_EDITOR_VERSION);
-        if (welcomelen, > E.screencols) welcomelen = E.screencols;
-        abAppend(ab, welcome, welcomelen);
-      }
-      else
-      {
-        abAppend(ab, "~", 1);
-      }
+      char welcome[80];
+      int welcomelen = snprintf(welcome, sizeof(welcome), "Raphael Text Editor -- version %s", RAPHAEL_EDITOR_VERSION);
+      if (welcomelen > E.screencols) welcomelen = E.screencols;
+      abAppend(ab, welcome, welcomelen);
+    }
+    else
+    {
+      abAppend(ab, "~", 1);
     }
 
     abAppend(ab, "\x1b[K", 3);
