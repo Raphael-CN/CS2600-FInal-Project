@@ -21,7 +21,7 @@ struct editorConfig
   int screenrows;
   int screencols;
   struct termios orig_termios;
-}
+};
 
 struct editorConfig E;
 
