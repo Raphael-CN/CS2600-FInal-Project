@@ -304,7 +304,7 @@ void editorDrawRows(struct abuf *ab)
 void editorRefreshScreen()
 {
   editorScroll();
-  
+
   struct abuf ab = ABUF_INIT;
 
   abAppend(&ab, "\x1b[?25l", 6);
@@ -347,7 +347,7 @@ void editorMoveCursor(int key)
       }
       break;
     case ARROW_DOWN:
-      if (E.cy != E.screenrows - 1)
+      if (E.cy < E.numrows)
       {
         E.cy++;
       }
