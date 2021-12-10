@@ -778,7 +778,7 @@ void editorFindCallback(char *query, int key)
 
       saved_hl_line = current;
       saved_hl = malloc(row->rsize);
-      memcpy(saved_hl, row->hl, row->rsize)
+      memcpy(saved_hl, row->hl, row->rsize);
       memset(&row->hl[match - row->render], HL_MATCH, strlen(query));
       break;
     }
@@ -901,7 +901,7 @@ void editorDrawRows(struct abuf *ab)
 
       for (j = 0; j < len; j++)
       {
-        if (iscntrol(c[j]))
+        if (iscntrl(c[j]))
         {
           char sym = (c[j] <= 26) ? '@' + c[j] : '?';
           abAppend(ab, "\x1b[7m", 4);
